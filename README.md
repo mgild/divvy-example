@@ -62,5 +62,3 @@ UPDATE_AUTH_KEY=<UPDATE AUTH PUBKEY HERE>
 ts-node example_2b.ts --payerFile=example-keypair.json \
   --dataFeedPubkey=${FEED_PUBKEY?} --updateAuthPubkey=${UPDATE_AUTH_KEY?}
 ```
-# divvy-example
-# divvy-example
