@@ -6,6 +6,8 @@ services:
     restart: always
     secrets:
       - PAYER_SECRETS
+    volumes:
+      - ./configs.json:/configs.json
     environment:
       - LIVE=1
       - CLUSTER=devnet

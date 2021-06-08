@@ -21,20 +21,9 @@ let argv = yargs(process.argv).options({
   },
 }).argv;
 
-function toCluster(cluster: string): Cluster {
-  switch (cluster) {
-    case "devnet":
-    case "testnet":
-    case "mainnet-beta": {
-      return cluster;
-    }
-  }
-  throw new Error("Invalid cluster provided.");
-}
-
 async function main() {
   let cluster = 'devnet';
-  let connection = new Connection(clusterApiUrl(toCluster(cluster), true), 'processed');
+  let connection = new Connection(`https://api.${cluster}.solana.com/`, 'processed');
   let payerKeypair = JSON.parse(fs.readFileSync(resolve(argv.payerFile), 'utf-8'));
   let payerAccount = new Account(payerKeypair);
   console.log("Creating aggregator...");
@@ -43,11 +32,12 @@ async function main() {
   let jobAccount = await addFeedJob(connection, payerAccount, dataFeedAccount, [
     OracleJob.Task.create({
       httpTask: OracleJob.HttpTask.create({
-        url: `https://www.binance.us/api/v3/ticker/price?symbol=BTCUSD`
+        url: "https://api.the-odds-api.com/v3/odds/?sport=basketball_nba&region=us&apiKey=${API_KEY}"
       }),
     }),
     OracleJob.Task.create({
-      jsonParseTask: OracleJob.JsonParseTask.create({ path: "$.price" }),
+      jsonParseTask: OracleJob.JsonParseTask.create({ path:
+        "$.data[?(@.teams[0] == 'Atlanta Hawks' && @.teams[1] == 'Philadelphia 76ers')].sites[?(@.site_key == 'fanduel')].odds.h2h[0]" }),
     }),
   ]);
   console.log(`JOB_PUBKEY=${jobAccount.publicKey}`);

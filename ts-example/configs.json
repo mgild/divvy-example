@@ -1,0 +1,7 @@
+{
+  "jobVariables": {
+    "$JOB_PUBKEY": {
+      "API_KEY": "$API_KEY"
+    }
+  }
+}

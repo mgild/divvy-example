@@ -30,7 +30,7 @@ npm i
 ts-node example_1.ts --payerFile=example-keypair.json --programPubkey=${PROGRAM_PUBKEY?} --dataFeedPubkey=${FEED_PUBKEY?}
 ```
 
-# Example 2: Creating your own Data Feed
+# Example 2: Creating your own Data Feed, using variable expansion
 
 In this example, we will create our own data feed and spin up our own node to
 fulfill aggregator jobs.
@@ -52,6 +52,20 @@ solana airdrop 5 example-keypair.json --url https://api.devnet.solana.com
 ts-node example_2a.ts --payerFile=example-keypair.json
 export FULFILLMENT_MANAGER_KEY=<FULFILLMENT MANAGER KEY HERE>
 export AUTH_KEY=<AUTH KEY HERE>
+```
+
+### Now, here is where we differ from https://github.com/switchboard-xyz/examples
+### Set up oracle variable expansion
+### https://getting-started.switchboard.xyz/#variable-expansion
+
+Before you run your oracle, you must add your `the-odds` api key to `configs.json`.
+
+1. Replace $JOB_PUBKEY with `JOB_PUBKEY` from part 2a
+1. Replace $API_KEY with your api key.
+
+Now you may start your oracle:
+
+```shell
 docker-compose up
 ```
 
